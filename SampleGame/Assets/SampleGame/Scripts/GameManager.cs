@@ -20,6 +20,16 @@ namespace SampleGame
         private bool _isGameOver;
         public bool IsGameOver { get { return _isGameOver; } }
 
+        private static GameManager _instance;
+
+        public static GameManager Instance
+        {
+            get
+            {
+                return _instance;
+            }
+        }
+
         [SerializeField]
         private string nextLevelName;
 
@@ -30,9 +40,26 @@ namespace SampleGame
         // initialize references
         private void Awake()
         {
+            if (_instance != null)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                _instance = this;
+            }
+
             _player = Object.FindObjectOfType<ThirdPersonCharacter>();
             _objective = Object.FindObjectOfType<Objective>();
             _goalEffect = Object.FindObjectOfType<GoalEffect>();
+        }
+
+        private void OnDestroy()
+        {
+            if (_instance == this)
+            {
+                _instance = null;
+            }
         }
 
         // end the level
@@ -99,7 +126,7 @@ namespace SampleGame
             LoadLevel(currentLevelIndex);
         }
 
-        private void LoadNextLevel()
+        public void LoadNextLevel()
         {
             int currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
             int nextLevelIndex = currentLevelIndex + 1;
@@ -117,7 +144,7 @@ namespace SampleGame
         // check for the end game condition on each frame
         private void Update()
         {
-            if (_objective != null & _objective.IsComplete)
+            if (_objective != null && _objective.IsComplete)
             {
                 EndLevel();
             }
