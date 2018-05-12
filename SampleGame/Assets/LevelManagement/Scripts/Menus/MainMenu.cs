@@ -1,32 +1,37 @@
-﻿using SampleGame;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace LevelManagement
 {
     public class MainMenu : Menu<MainMenu>
     {
+        [SerializeField]
+        private float _playDelay = 0.5f;
+
+        [SerializeField]
+        private TransitionFader startTransitionPrefab;
+
         public void OnPlayPressed()
         {
-            if (GameManager.Instance != null)
-            {
-                GameManager.Instance.LoadNextLevel();
-            }
+            StartCoroutine(OnPlayPressedRoutine());
+        }
+
+        private IEnumerator OnPlayPressedRoutine()
+        {
+            TransitionFader.PlayTransition(startTransitionPrefab);
+            LevelLoader.LoadNextLevel();
+            yield return new WaitForSeconds(_playDelay); // i dont like this solution. It adds .5 seconds delay on key press.
+            GameMenu.Open();
         }
 
         public void OnSettingsPressed()
         {
-            if (MenuManager.Instance != null && SettingsMenu.Instance != null)
-            {
-                MenuManager.Instance.OpenMenu(SettingsMenu.Instance);
-            }
+            SettingsMenu.Open();
         }
 
         public void OnCreditsPressed()
         {
-            if (MenuManager.Instance != null && CreditsScreen.Instance != null)
-            {
-                MenuManager.Instance.OpenMenu(CreditsScreen.Instance);
-            }
+            CreditsScreen.Open();
         }
 
         public override void OnBackPressed()

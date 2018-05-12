@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using LevelManagement;
 using UnityEngine;
-using UnityStandardAssets.Characters.ThirdPerson;
 using UnityEngine.SceneManagement;
+using UnityStandardAssets.Characters.ThirdPerson;
 
 namespace SampleGame
 {
@@ -31,11 +31,7 @@ namespace SampleGame
         }
 
         [SerializeField]
-        private string nextLevelName;
-
-        [SerializeField]
-        private int nextLevelIndex;
-
+        private TransitionFader _endTransitionPrefab;
 
         // initialize references
         private void Awake()
@@ -92,53 +88,18 @@ namespace SampleGame
             {
                 _isGameOver = true;
                 _goalEffect.PlayEffect();
-                LoadNextLevel();
+                StartCoroutine(WinRoutine());
             }
         }
 
-        private void LoadLevel(int levelIndex)
+        private IEnumerator WinRoutine()
         {
-            if (levelIndex >= 0 && levelIndex < SceneManager.sceneCountInBuildSettings)
-            {
-                SceneManager.LoadScene(levelIndex);
-            }
-            else
-            {
-                Debug.LogWarning("GAMEMANAGER LoadLevel Error: invalid scene specified!");
-            }
-        }
+            TransitionFader.PlayTransition(_endTransitionPrefab);
 
-        private void LoadLevel(string levelname)
-        {
-            if (Application.CanStreamedLevelBeLoaded(levelname))
-            {
-                SceneManager.LoadScene(levelname);
-            }
-            else
-            {
-                Debug.LogWarning("GAMEMANAGER LoadLevel Error: invalid scene specified!");
-            }
-        }
+            float fadeDelay = (_endTransitionPrefab != null) ? _endTransitionPrefab.Delay + _endTransitionPrefab.FadeOnDuration : 0;
 
-        private void ReloadLevel()
-        {
-            int currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
-            LoadLevel(currentLevelIndex);
-        }
-
-        public void LoadNextLevel()
-        {
-            int currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
-            int nextLevelIndex = currentLevelIndex + 1;
-            int totalSceneCount = SceneManager.sceneCountInBuildSettings;
-
-            if (nextLevelIndex == totalSceneCount)
-            {
-                nextLevelIndex = 0;
-            }
-
-            LoadLevel(nextLevelIndex);
-
+            yield return new WaitForSeconds(fadeDelay);
+            WinScreen.Open();
         }
 
         // check for the end game condition on each frame
