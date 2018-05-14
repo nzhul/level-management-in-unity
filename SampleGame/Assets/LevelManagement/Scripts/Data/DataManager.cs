@@ -43,6 +43,18 @@ namespace LevelManagement.Data
             }
         }
 
+        public string PlayerName
+        {
+            get
+            {
+                return _saveData.playerName;
+            }
+            set
+            {
+                _saveData.playerName = value;
+            }
+        }
+
         private void Awake()
         {
             _saveData = new SaveData();
