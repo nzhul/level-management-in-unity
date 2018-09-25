@@ -207,16 +207,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenuPrefab: {fileID: 114071758038421980, guid: d2badd63301051c468fa700af946a85e,
     type: 2}
-  settingsMenuPrefab: {fileID: 114449996848271230, guid: 608476ef4a7b0864daa2adb8260d0732,
-    type: 2}
-  creditsScreenPrefab: {fileID: 114137767995461638, guid: dadef56df07e0114f822d856c40cafcc,
-    type: 2}
-  gameMenuPrefab: {fileID: 114458582748650322, guid: b0de607334c98f2478b7c3dd445defb6,
-    type: 2}
-  pauseMenuPrefab: {fileID: 114415368301383222, guid: 2526491e74cf1ad40b298048edc60ebe,
-    type: 2}
-  winScreenPrefab: {fileID: 114310501083389516, guid: 5f9a7c088f82f37488c837258ba30d00,
-    type: 2}
+  Menus:
+  - {fileID: 114137767995461638, guid: dadef56df07e0114f822d856c40cafcc, type: 2}
+  - {fileID: 114458582748650322, guid: b0de607334c98f2478b7c3dd445defb6, type: 2}
+  - {fileID: 114071758038421980, guid: d2badd63301051c468fa700af946a85e, type: 2}
+  - {fileID: 114415368301383222, guid: 2526491e74cf1ad40b298048edc60ebe, type: 2}
+  - {fileID: 114449996848271230, guid: 608476ef4a7b0864daa2adb8260d0732, type: 2}
+  - {fileID: 114310501083389516, guid: 5f9a7c088f82f37488c837258ba30d00, type: 2}
   _menuParent: {fileID: 0}
 --- !u!1 &581072270
 GameObject:

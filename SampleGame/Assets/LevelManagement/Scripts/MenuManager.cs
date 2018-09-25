@@ -9,16 +9,19 @@ namespace LevelManagement
     {
         [SerializeField]
         private MainMenu mainMenuPrefab;
+        //[SerializeField]
+        //private SettingsMenu settingsMenuPrefab;
+        //[SerializeField]
+        //private CreditsScreen creditsScreenPrefab;
+        //[SerializeField]
+        //private GameMenu gameMenuPrefab;
+        //[SerializeField]
+        //private PauseMenu pauseMenuPrefab;
+        //[SerializeField]
+        //private WinScreen winScreenPrefab;
+
         [SerializeField]
-        private SettingsMenu settingsMenuPrefab;
-        [SerializeField]
-        private CreditsScreen creditsScreenPrefab;
-        [SerializeField]
-        private GameMenu gameMenuPrefab;
-        [SerializeField]
-        private PauseMenu pauseMenuPrefab;
-        [SerializeField]
-        private WinScreen winScreenPrefab;
+        public Menu[] Menus;
 
         [SerializeField]
         private Transform _menuParent;
@@ -69,24 +72,38 @@ namespace LevelManagement
 
             DontDestroyOnLoad(_menuParent.gameObject);
 
-            FieldInfo[] fields = this.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+            //FieldInfo[] fields = this.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
 
-            foreach (FieldInfo  field in fields)
+            //foreach (FieldInfo  field in fields)
+            //{
+            //    Menu prefab = field.GetValue(this) as Menu;
+
+            //    if (prefab != null)
+            //    {
+            //        Menu menuInstance = Instantiate(prefab, _menuParent);
+            //        if (prefab != mainMenuPrefab)
+            //        {
+            //            menuInstance.gameObject.SetActive(false);
+            //        }
+            //        else
+            //        {
+            //            // open main menu
+            //            OpenMenu(menuInstance);
+            //        }
+            //    }
+            //}
+
+            foreach (Menu menu in Menus)
             {
-                Menu prefab = field.GetValue(this) as Menu;
-
-                if (prefab != null)
+                Menu menuInstance = Instantiate(menu, _menuParent);
+                if (menu != mainMenuPrefab)
                 {
-                    Menu menuInstance = Instantiate(prefab, _menuParent);
-                    if (prefab != mainMenuPrefab)
-                    {
-                        menuInstance.gameObject.SetActive(false);
-                    }
-                    else
-                    {
-                        // open main menu
-                        OpenMenu(menuInstance);
-                    }
+                    menuInstance.gameObject.SetActive(false);
+                }
+                else
+                {
+                    // open main menu
+                    OpenMenu(menuInstance);
                 }
             }
         }
